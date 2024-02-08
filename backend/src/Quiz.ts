@@ -40,80 +40,71 @@ export class Quiz {
         // this.io = io;
         this.questions = [];
         console.log('Room created: ' + roomId);
-        this.setupSocketListeners();
     }
 
-    private setupSocketListeners() {
-        //     this.io.on('addQuestion', (question) => {
-        //         console.log('addQuestion event received:', question);
-        //         this.addQuestion(question);
-        //     });
 
-        //     this.io.on('addUser', (id) => {
-        //         console.log('add = called');
-        //         this.addUser(id);
-        //     });
-
-        //     this.io.on('submit', (userId: string, problemId: string, optionSelected: AllowedSubmission) => {
-        //         this.selectAnswer(userId, problemId, optionSelected);
-        //     });
-
-        //     this.io.on('getScore', () => {
-        //         console.log('Score sent');
-        //         const scores = this.getScores();
-        //         this.io.emit('scores', scores);
-        //     });
-
-        //     this.io.on('getQuestion', () => {
-        //         const q = this.getQuestions();
-        //         this.io.emit('question', q);
-        //     });
-        // }
-    }
-
-    startQuiz() {
-        console.log(this.questions)
-
-        io.emit('question', (this.questions));
-        // this.questions.map((q) => {
-        //     io.emit('question', (q));
-
-        // })
-    }
     addUser(id: string) {
-        const user1 = this.users.find((u) => u.id === id);
-        console.log(user1);
-        if (!user1) {
+        const existingUser = this.users.find((user) => user.id === id);
+        if (!existingUser) {
             this.users.push({ id, points: 0 });
         } else {
-            // this.io.emit('userExists');
             console.log('User already exists');
         }
     }
-
     addQuestion(question: Question) {
         this.questions.push(question);
     }
+
+    startQuiz() {
+        console.log(this.questions);
+        let index = 0;
+        const roomId = this.roomId;
+
+        const intervalId = setInterval(() => {
+            if (index < this.questions.length) {
+                const currentQuestion = this.questions[index];
+                io.to(roomId).emit('question', currentQuestion);
+                index++;
+            } else {
+                clearInterval(intervalId);
+                io.to(roomId).emit('quizEnded');
+                const leaderboard = this.getScores();
+                io.to(roomId).emit('leaderboard', leaderboard);
+            }
+        }, 20000); // 20 seconds interval
+    }
+
+
 
     findRoom(roomId: string) {
         return this.roomId === roomId ? this : null;
     }
 
+
     selectAnswer(userId: string, problemId: string, optionSelected: AllowedSubmission) {
         const user = this.users.find((u) => u.id === userId);
         const question = this.questions.find((q) => q.id === problemId);
 
-        if (user && question) {
-            const isCorrect = question.answer === optionSelected;
-            const submission: Submission = {
-                problemId,
-                userId,
-                isCorrect,
-                optionSelected,
-            };
-
-            question.submission.push(submission);
+        if (!user || !question) {
+            console.log("User or Question not found.");
+            return;
         }
+
+        const isCorrect = question.answer === optionSelected;
+
+        if (isCorrect) {
+            user.points += 10;
+            console.log("Updated score:", user.points);
+        }
+
+        const submission: Submission = {
+            problemId,
+            userId,
+            isCorrect,
+            optionSelected,
+        };
+
+        question.submission.push(submission);
     }
 
     getQuestions() {

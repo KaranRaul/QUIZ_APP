@@ -16,12 +16,13 @@ const Admin = () => {
         }));
         socket.on('quizCreated', () => {
             setCreated(true);
+            localStorage.setItem('RoomId', roomId);
         })
 
     }
 
     const start = () => {
-        socket.emit('startQuiz');
+        socket.emit('startQuiz', { roomId });
     }
     return (
 

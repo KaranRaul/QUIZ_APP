@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { socket } from '../App'; // Assuming you have the socket instance exported from 'App'
 
-const CreateQuestion = ({ roomId }) => {
+const CreateQuestion = ({ roomId }: { roomId: string }) => {
     const [title, setTitle] = useState("");
     const [option1, setOption1] = useState("");
     const [option2, setOption2] = useState("");
@@ -9,9 +9,11 @@ const CreateQuestion = ({ roomId }) => {
     const [option4, setOption4] = useState("");
     const [answer, setAnswer] = useState("0");
     const [addAnother, setAddAnother] = useState(false);
-
+    const [disable, setDisable] = useState(false);
+    let cnt = 0;
     const createQuestion = () => {
         const question = {
+            id: cnt++,
             title: title,
             options: [
                 { id: 0, title: option1 },
@@ -69,7 +71,7 @@ const CreateQuestion = ({ roomId }) => {
                 <option value="3">Option 4</option>
             </select>
             <br />
-            <button onClick={createQuestion}>Submit Question</button>
+            <button onClick={createQuestion} disabled={disable}>Submit Question</button>
             {addAnother && <button onClick={handleAddAnother}>Add Another Question</button>}
         </div>
     );
