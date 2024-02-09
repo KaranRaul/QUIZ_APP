@@ -30,16 +30,16 @@ export class Quiz {
     roomId: string;
     private users: User[];
     private admin: string;
-
+    private socket: Socket;
     private questions: Question[];
 
     constructor(roomId: string, admin: string, io: Socket) {
         this.roomId = roomId;
         this.users = [];
         this.admin = admin;
-        // this.io = io;
+        this.socket = io;
         this.questions = [];
-        console.log('Room created: ' + roomId);
+        //consol.og('Room created: ' + roomId);
     }
 
 
@@ -48,7 +48,8 @@ export class Quiz {
         if (!existingUser) {
             this.users.push({ id, points: 0 });
         } else {
-            console.log('User already exists');
+            this.socket.emit('userExists');
+            //consol.og('User already exists');
         }
     }
     addQuestion(question: Question) {
@@ -56,9 +57,12 @@ export class Quiz {
     }
 
     startQuiz() {
-        console.log(this.questions);
-        let index = 0;
+        //consol.og(this.questions);
+        let index = 1;
         const roomId = this.roomId;
+        const scores = this.getScores();
+        io.to(roomId).emit('scores', scores);
+        io.to(roomId).emit('question', this.questions[0]);
 
         const intervalId = setInterval(() => {
             if (index < this.questions.length) {
@@ -86,7 +90,7 @@ export class Quiz {
         const question = this.questions.find((q) => q.id === problemId);
 
         if (!user || !question) {
-            console.log("User or Question not found.");
+            //consol.og("User or Question not found.");
             return;
         }
 
@@ -94,7 +98,7 @@ export class Quiz {
 
         if (isCorrect) {
             user.points += 10;
-            console.log("Updated score:", user.points);
+            //consol.og("Updated score:", user.points);
         }
 
         const submission: Submission = {

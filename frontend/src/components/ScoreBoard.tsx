@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { socket } from '../App'
 import { useAsyncError, useSearchParams } from 'react-router-dom'
-const ScoreBoard = () => {
+const ScoreBoard = ({ msg }: { msg: string }) => {
     const [leaderboard, setLeaderboard] = useState<any>(null);
 
     useEffect(() => {
-        socket.on('leaderboard', (leaderboard: any) => {
-            console.log(leaderboard)
-            setLeaderboard(leaderboard);
+        socket.on('scores', (scores) => {
+            console.log(scores);
+            const sorted = scores.sort((a: any, b: any) => b.points - a.points);
+            setLeaderboard(sorted);
         })
     })
     return (
         <div>
-            quiz ENded
-            {leaderboard && leaderboard.map((user: any) => {
-                return <div id={user.name}>
-                    {user.name} with points {user.points}
+            <h2 className="text-2xl font-bold mb-4">{msg}</h2>
+            {leaderboard && leaderboard.map((user: any) => (
+                <div key={user.name} className="bg-white rounded-lg shadow-md p-4 mb-4">
+                    <h3 className="text-lg font-bold mb-2">{user.name}</h3>
+                    <p className="text-gray-600">Score: {user.score}</p>
                 </div>
-            })}
+            ))}
         </div>
     )
 }

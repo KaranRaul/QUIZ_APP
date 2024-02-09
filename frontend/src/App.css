@@ -1,6 +1,4 @@
  #root {
-   max-width: 1280px;
-   margin: 0 auto;
-   padding: 2rem;
-   text-align: center;
+   background: rgb(12, 18, 18);
+   background: linear-gradient(90deg, rgba(12, 18, 18, 1) 0%, rgba(30, 46, 47, 1) 42%, rgba(18, 35, 38, 1) 67%, rgba(14, 34, 38, 1) 88%, rgba(21, 37, 41, 1) 100%);
  }

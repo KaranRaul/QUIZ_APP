@@ -66,11 +66,12 @@ io.on('connection', (socket: Socket) => {
     socket.on('startQuiz', (data) => {
         const { roomId } = data
         const quiz = quizzes[roomId];
+
         if (quiz) {
             quiz.startQuiz();
             io.to(roomId).emit('started'); // Emit 'started' event to all sockets in the room
         } else {
-            console.log("Quiz not created.");
+            // console.log("Quiz not created.");
         }
     });
     socket.on('submit', (data) => {
@@ -78,9 +79,9 @@ io.on('connection', (socket: Socket) => {
         const quiz = quizzes[roomId];
         if (quiz) {
             quiz.selectAnswer(userId, problemId, optionSelected);
-            console.log('Updted score');
-            const score = quiz.getScores();
-            console.log(score)
+            // console.log('Updted score');
+            // const score = quiz.getScores();
+            // console.log(score)
         }
 
     })
