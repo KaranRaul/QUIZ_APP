@@ -16,17 +16,17 @@ const quizzes: Record<string, Quiz> = {}; // Store rooms using room ID as key
 // let quiz: Quiz;
 
 io.on('connection', (socket: Socket) => {
-    console.log('connected with id ' + socket.id);
+    // console.log('connected with id ' + socket.id);
 
     socket.on('createRoom', (data) => {
         const existingQuiz = quizzes[data.roomId];
         if (existingQuiz) {
-            console.log('Quiz with the same name already exists');
+            // console.log('Quiz with the same name already exists');
             socket.emit('quizExists', data.roomId);
         } else {
             const newQuiz = new Quiz(data.roomId, data.admin, socket);
             quizzes[data.roomId] = newQuiz;
-            console.log('Quiz created with ID: ' + data.roomId);
+            // console.log('Quiz created with ID: ' + data.roomId);
             socket.emit('quizCreated', data.roomId);
             socket.join(data.roomId);
         }
