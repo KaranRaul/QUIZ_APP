@@ -15,16 +15,7 @@ const User = () => {
     const [msg, setMsg] = useState('');
     const [count, setCount] = useState(TIME);
 
-    useEffect(() => {
-        if (question) {
-            setCount(20);
-            const timer = setInterval(() => {
-                setCount((prevCount) => prevCount - 1);
-            }, 1000);
 
-            if (count == 0) return () => clearInterval(timer);
-        }
-    }, []);
 
     useEffect(() => {
         socket.on('question', (q) => {
@@ -75,6 +66,16 @@ const User = () => {
         }
     };
 
+    // const timer = (time) => {
+    //     if (question) {
+    //         setCount(time);
+    //         const timer = setInterval(() => {
+    //             setCount((prevCount) => prevCount - 1);
+    //         }, 1000);
+
+
+    //     }
+    // }
     return (
         <div className="flex container  mx-auto py-8 justify-center">
             <div>
@@ -105,7 +106,7 @@ const User = () => {
                 {logged && !started && !quizEnded && <p className="text-lg font-semibold">Waiting for quiz to start...</p>}
 
                 {started && question && logged && (
-                    <div className="bg-gray-100 rounded-lg p-6 shadow-md">
+                    < div className="mt-16 bg-gray-100 h-[400px] w-[500px] rounded-lg p-6 shadow-md">
                         <div> <h1> Time :: </h1>  {count}</div>
                         <h2 className="text-xl font-bold mb-4 text-gray-800">Question</h2>
                         <p className="mb-4 text-gray-700">{question.title}</p>
@@ -134,7 +135,7 @@ const User = () => {
                 )}
             </div>
             {quizEnded && <ScoreBoard msg={" RESULT "} />}
-        </div>
+        </div >
     );
 };
 

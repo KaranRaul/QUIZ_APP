@@ -8,7 +8,7 @@ const { instrument } = require("@socket.io/admin-ui");
 const httpServer = createServer();
 
 export const io = new Server(httpServer, {
-    cors: "",
+    cors: "*",
 });
 
 const quizzes: Record<string, Quiz> = {}; // Store rooms using room ID as key
@@ -79,9 +79,9 @@ io.on('connection', (socket: Socket) => {
         const quiz = quizzes[roomId];
         if (quiz) {
             quiz.selectAnswer(userId, problemId, optionSelected);
-            // console.log('Updted score');
-            // const score = quiz.getScores();
-            // console.log(score)
+            console.log('Updted score');
+            const score = quiz.getScores();
+            console.log(score)
         }
 
     })

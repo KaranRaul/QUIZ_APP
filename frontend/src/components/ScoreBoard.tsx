@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { socket } from '../App'
-import { useAsyncError, useSearchParams } from 'react-router-dom'
 const ScoreBoard = ({ msg }: { msg: string }) => {
     const [leaderboard, setLeaderboard] = useState<any>(null);
 
@@ -17,7 +16,7 @@ const ScoreBoard = ({ msg }: { msg: string }) => {
             {leaderboard && leaderboard.map((user: any) => (
                 <div key={user.name} className="bg-white rounded-lg shadow-md p-4 mb-4">
                     <h3 className="text-lg font-bold mb-2">{user.name}</h3>
-                    <p className="text-gray-600">Score: {user.score}</p>
+                    <p className="text-gray-600">Score: {user.points}</p>
                 </div>
             ))}
         </div>

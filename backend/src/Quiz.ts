@@ -72,9 +72,11 @@ export class Quiz {
             } else {
                 clearInterval(intervalId);
                 io.to(roomId).emit('quizEnded');
-                const leaderboard = this.getScores();
-                io.to(roomId).emit('leaderboard', leaderboard);
+                // const leaderboard = this.getScores();
+                // io.to(roomId).emit('leaderboard', leaderboard);
             }
+            const scores1 = this.getScores();
+            io.to(roomId).emit('scores', scores1);
         }, 20000); // 20 seconds interval
     }
 
@@ -98,7 +100,7 @@ export class Quiz {
 
         if (isCorrect) {
             user.points += 10;
-            //consol.og("Updated score:", user.points);
+            console.log("Updated score:", user.points);
         }
 
         const submission: Submission = {
