@@ -6,6 +6,12 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 const { instrument } = require("@socket.io/admin-ui");
 const httpServer = createServer();
+const express = require('express');
+const app = express();
+app.listen(3000);
+app.get('/', (req, res) => {
+    res.send('hello world');
+})
 exports.io = new Server(httpServer, {
     cors: "*",
 });
@@ -84,4 +90,4 @@ instrument(exports.io, {
     auth: false,
     mode: "development",
 });
-httpServer.listen(3000);
+// httpServer.listen(3000);

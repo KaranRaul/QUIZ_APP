@@ -3,10 +3,6 @@ import { io } from 'socket.io-client';
 import { socket } from '../App';
 import { useNavigate } from 'react-router-dom';
 import CreateQuestion from './CreateQuestion';
-// export const socket = io('http://localhost:3000');
-
-// const socket = io('https://quiz-app-backend-ashen.vercel.app/');
-
 const Admin = () => {
     const nevigate = useNavigate();
     const [roomId, setRoomId] = useState("");
