@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { socket } from '../App';
 import ScoreBoard from './ScoreBoard';
-import { Navigate, useNavigate } from 'react-router-dom';
-const TIME = 20;
+import { useNavigate } from 'react-router-dom';
 const User = () => {
     const nevigate = useNavigate();
     const [userId, setUserId] = useState("");
@@ -15,7 +14,7 @@ const User = () => {
     const [disable, setDisable] = useState(false);
     const [alert, setAlert] = useState(false);
     const [msg, setMsg] = useState('');
-    const [count, setCount] = useState(TIME);
+    // const [count, setCount] = useState(TIME);
 
     useEffect(() => {
         socket.on('question', (q) => {
@@ -105,7 +104,7 @@ const User = () => {
 
                         {started && question && logged && (
                             <div className="mt-16 bg-gray-100 h-[400px] w-[500px] rounded-lg p-6 shadow-md">
-                                <div> <h1> Time :: </h1>  {count}</div>
+                                <div> <h1> Time :: </h1>  20 </div>
                                 <h2 className="text-xl font-bold mb-4 text-gray-800">Question</h2>
                                 <p className="mb-4 text-gray-700">{question.title}</p>
                                 <form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { socket } from '../App'; // Assuming you have the socket instance exported from 'App'
 import ScoreBoard from './ScoreBoard';
 
@@ -13,7 +13,7 @@ const CreateQuestion = ({ roomId }: { roomId: string }) => {
     const [addAnother, setAddAnother] = useState(false);
     const [alert, setAlert] = useState(false);
     const [msg, setMsg] = useState("");
-    const [disable, setDisable] = useState(false);
+    // const [disable, setDisable] = useState(false);
     const [cnt, setCnt] = useState(0);
     const createQuestion = () => {
         if (!title || !option1 || !option2 || !option3 || !option4) {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { io } from 'socket.io-client';
+import { useState } from 'react'
+// import { io } from 'socket.io-client';
 import { socket } from '../App';
 import { useNavigate } from 'react-router-dom';
 import CreateQuestion from './CreateQuestion';

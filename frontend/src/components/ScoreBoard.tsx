@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { socket } from '../App'
 const ScoreBoard = ({ msg }: { msg: string }) => {
     const [leaderboard, setLeaderboard] = useState<any>(null);
